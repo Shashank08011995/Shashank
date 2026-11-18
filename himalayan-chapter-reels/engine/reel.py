@@ -231,8 +231,10 @@ def build_audio():
     chap = [c for c in clips if c['kind'] == 'foot' and cfg['shots'][c['shot']]['type'] == 'chapter']
     groove = chap[0]['t0'] if chap else 3.0
     end = [c for c in clips if c['kind'] == 'end']; outro = end[0]['t0'] if end else TOTAL - 4
-    soft = [c['t0'] for c in clips if c['tin'] == 'dis']
-    page = [c['t0'] for c in clips if c['tin'] == 'page']
+    # transition swish sounds are off by default; set "swish": true in an episode to bring them back
+    sw = cfg.get('swish', False)
+    soft = [c['t0'] for c in clips if c['tin'] == 'dis'] if sw else []
+    page = [c['t0'] for c in clips if c['tin'] == 'page'] if sw else []
     m = make_music(TOTAL, groove, outro, soft, page, duck, seed=cfg.get('seed', 11))
     mix = m * 0.9 + voice * cfg.get('voice_gain', 1.0)
     mix /= max(1, np.abs(mix).max() / 0.95)
