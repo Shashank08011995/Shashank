@@ -1,0 +1,65 @@
+{
+ "out": "../out/THC_Daily_Chapter05.mp4",
+ "assets": {
+  "fonts": "../assets/fonts",
+  "logo": "../assets/logo.png"
+ },
+ "seed": 23,
+ "shots": [
+  {
+   "type": "chapter",
+   "num": "05",
+   "title": "The Avocado & Mushroom Toast",
+   "src": "../footage/ch05_avocado_toast.mp4",
+   "voice": "../footage/clean/ch05_avocado_toast.wav",
+   "pre": "crop=490:871:43:0,",
+   "parts": [
+    [
+     5.2,
+     10.4
+    ],
+    [
+     0.75,
+     4.6
+    ]
+   ],
+   "subs": [
+    [
+     0.75,
+     3.3,
+     "Amazing place, amazing people,",
+     "Amazing place, amazing people"
+    ],
+    [
+     3.6,
+     4.6,
+     "good service.",
+     ""
+    ],
+    [
+     5.3,
+     9.1,
+     "I recommend the avocado & mushroom toast.",
+     "avocado mushroom toast"
+    ],
+    [
+     9.6,
+     10.4,
+     "Amazing!",
+     "Amazing"
+    ]
+   ]
+  },
+  {
+   "type": "end",
+   "dur": 4.0,
+   "line1": "Every guest is a chapter.",
+   "line2": "COME WRITE YOURS.",
+   "info": [
+    "Rooftop views  ·  Live music nights",
+    "Board games, books & slow evenings"
+   ],
+   "place": "BALAKNATH RD  ·  TAPOVAN  ·  RISHIKESH"
+  }
+ ]
+}

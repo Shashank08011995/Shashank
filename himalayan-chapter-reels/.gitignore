@@ -1,0 +1,4 @@
+footage/
+out/
+*.wav
+__pycache__/

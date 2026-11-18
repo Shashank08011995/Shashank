@@ -1,0 +1,206 @@
+{
+ "out": "../out/THC_Chapters_Ep01_v2.mp4",
+ "assets": {
+  "fonts": "../assets/fonts",
+  "logo": "../assets/logo.png"
+ },
+ "seed": 11,
+ "shots": [
+  {
+   "type": "hook",
+   "src": "../footage/interior_walkthrough.mp4",
+   "in": 0.0,
+   "out": 3.0,
+   "kicker": "THIS CAFÉ IN TAPOVAN",
+   "lines": [
+    "doesn’t have",
+    "customers."
+   ],
+   "pre": "scale=1080:1920,zoompan=z='1+0.0012*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,"
+  },
+  {
+   "type": "card",
+   "dur": 1.8,
+   "small": "It has",
+   "big": "CHAPTERS.",
+   "foot": "THE HIMALAYAN CHAPTER"
+  },
+  {
+   "type": "chapter",
+   "num": "01",
+   "title": "The Hungry Wanderers",
+   "src": "../footage/ch01_hungry_wanderers.mp4",
+   "voice": "../footage/clean/ch01_hungry_wanderers.wav",
+   "pre": "transpose=1,",
+   "parts": [
+    [
+     18.95,
+     26.05
+    ]
+   ],
+   "subs": [
+    [
+     19.0,
+     22.3,
+     "Thankfully, it was delicious…",
+     "delicious"
+    ],
+    [
+     22.6,
+     26.0,
+     "…it felt like home.",
+     "felt like home"
+    ]
+   ]
+  },
+  {
+   "type": "chapter",
+   "num": "02",
+   "title": "Pretty Plates, Fair Prices",
+   "src": "../footage/ch02_pretty_plates.mp4",
+   "voice": "../footage/clean/ch02_pretty_plates.wav",
+   "parts": [
+    [
+     2.8,
+     9.65
+    ]
+   ],
+   "subs": [
+    [
+     2.85,
+     4.45,
+     "Even the presentation is really nice.",
+     "presentation"
+    ],
+    [
+     4.55,
+     7.35,
+     "It's very light, very reasonably priced also.",
+     "reasonably priced"
+    ],
+    [
+     7.8,
+     9.6,
+     "And the ambience is also really nice.",
+     "ambience"
+    ]
+   ]
+  },
+  {
+   "type": "chapter",
+   "num": "03",
+   "title": "Cold Coffee, Warm Company",
+   "src": "../footage/ch03_cold_coffee.mp4",
+   "voice": "../footage/clean/ch03_cold_coffee.wav",
+   "pre": "crop=360:640:x='216-216*clip((t-2.75)/0.8\\,0\\,1)':y=0,",
+   "parts": [
+    [
+     0.15,
+     6.15
+    ]
+   ],
+   "subs": [
+    [
+     0.2,
+     3.0,
+     "Wow, the coffee is really nice.",
+     "really nice"
+    ],
+    [
+     3.3,
+     4.3,
+     "So is the cold coffee.",
+     "cold coffee"
+    ],
+    [
+     4.6,
+     6.1,
+     "We're enjoying it right now.",
+     ""
+    ]
+   ]
+  },
+  {
+   "type": "chapter",
+   "num": "04",
+   "title": "The Chef's Kiss",
+   "src": "../footage/ch04_chefs_kiss.mp4",
+   "voice": "../footage/clean/ch04_chefs_kiss.wav",
+   "parts": [
+    [
+     1.1,
+     6.95
+    ]
+   ],
+   "subs": [
+    [
+     1.2,
+     3.4,
+     "We checked it out…",
+     ""
+    ],
+    [
+     3.4,
+     6.9,
+     "…and it's really, really good.",
+     "really, really good"
+    ]
+   ]
+  },
+  {
+   "type": "chapter",
+   "num": "05",
+   "title": "The Avocado & Mushroom Toast",
+   "src": "../footage/ch05_avocado_toast.mp4",
+   "voice": "../footage/clean/ch05_avocado_toast.wav",
+   "pre": "crop=490:871:43:0,",
+   "parts": [
+    [
+     0.75,
+     4.6
+    ],
+    [
+     5.2,
+     10.4
+    ]
+   ],
+   "subs": [
+    [
+     0.75,
+     3.3,
+     "Amazing place, amazing people,",
+     "Amazing place, amazing people"
+    ],
+    [
+     3.6,
+     4.6,
+     "good service.",
+     ""
+    ],
+    [
+     5.3,
+     9.1,
+     "I recommend the avocado & mushroom toast.",
+     "avocado mushroom toast"
+    ],
+    [
+     9.6,
+     10.4,
+     "Amazing!",
+     "Amazing"
+    ]
+   ]
+  },
+  {
+   "type": "end",
+   "dur": 4.5,
+   "line1": "Every guest is a chapter.",
+   "line2": "COME WRITE YOURS.",
+   "info": [
+    "Rooftop views  ·  Live music nights",
+    "Board games, books & slow evenings"
+   ],
+   "place": "BALAKNATH RD  ·  TAPOVAN  ·  RISHIKESH"
+  }
+ ]
+}
