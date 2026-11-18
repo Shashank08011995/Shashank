@@ -2,7 +2,7 @@
 import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve, lfilter
 SR=48000
-def make_music(total, groove_start, outro_start, swish_soft=(), swish_page=(), duck=None, seed=11, bpm=100):
+def make_music(total, groove_start, outro_start, swish_soft=(), swish_page=(), duck=None, seed=11, bpm=100, flute_at=()):
     N=int(SR*total); rng=np.random.default_rng(seed)
     L=np.zeros(N); R=np.zeros(N)
     hz=lambda m:440*2**((m-69)/12)
@@ -70,6 +70,26 @@ def make_music(total, groove_start, outro_start, swish_soft=(), swish_page=(), d
     while base<outro_start-3:
         for dt,m in motif: add(glock(m+12,0.5),base+dt*B,pan=0.25)
         base+=8*B
+    def flute(notes, v=1.0):
+        # bansuri-style: sine + soft harmonics, breath noise, vibrato, glides between notes
+        tot = max(s + d for s, d, m in notes) * B + 1.0; n = int(tot * SR); t = np.arange(n) / SR
+        freq = np.full(n, hz(notes[0][2])); amp = np.zeros(n)
+        for s, d, m in notes:
+            i0 = int(s * B * SR); i1 = int((s + d) * B * SR); g = int(0.06 * SR)
+            prev = freq[i0 - 1] if i0 > 0 else hz(m)
+            freq[i0:i0 + g] = np.linspace(prev, hz(m), g); freq[i0 + g:] = hz(m)
+            tt = np.arange(i1 - i0) / SR
+            amp[i0:i1] = np.maximum(amp[i0:i1], np.minimum(1, tt / 0.07) * np.clip((d * B - tt) / 0.2, 0, 1))
+        vib = 1 + 0.006 * np.sin(2 * np.pi * 5.2 * t)
+        ph = 2 * np.pi * np.cumsum(freq * vib) / SR
+        tone = np.sin(ph) + 0.2 * np.sin(2 * ph) + 0.06 * np.sin(3 * ph)
+        amp = lp(amp, 30, 1)
+        return (tone + bp(rng.standard_normal(n), 1500, 6000) * 0.1) * amp * 0.075 * v
+    PH = [[(0, 1, 79), (1, .5, 81), (1.5, .5, 79), (2, 2, 76), (4, 1, 74), (5, 1, 76), (6, 2, 79)],
+          [(0, 1.5, 81), (1.5, .5, 79), (2, 1, 76), (3, 1, 74), (4, 3, 72), (7, 1, 74)],
+          [(0, 1, 76), (1, 1, 79), (2, 1, 81), (3, 1, 84), (4, 2, 83), (6, 2, 79)],
+          [(0, 1, 81), (1, 1, 79), (2, 2, 76), (4, 1, 74), (5, 1, 72), (6, 2.5, 72)]]
+    for i, ft in enumerate(flute_at): add(flute(PH[i % len(PH)]), ft, pan=0.1)
     for k,m in enumerate([48,55,59,62,64,71]): add(rhodes(m+12,max(3.0,total-outro_start),1.1),outro_start+k*0.03,pan=-0.3+0.12*k)
     add(bass(36,3.0),outro_start); add(kick(0.9),outro_start)
     for i,m in enumerate([79,84,88]): add(glock(m,0.8),outro_start+0.3+i*0.3)

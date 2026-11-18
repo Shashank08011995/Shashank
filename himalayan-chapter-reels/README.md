@@ -8,13 +8,24 @@ title, smooth dissolves, an original copyright-free soundtrack that ducks under 
 
 ```
 engine/reel.py         builds a reel from an episode file (JSON)
-engine/music.py        original soundtrack generator (nostalgic lo-fi: e-piano, guitar, glockenspiel, vinyl)
+engine/music.py        original soundtrack generator (nostalgic lo-fi: e-piano, guitar, glockenspiel, bansuri, vinyl)
+engine/menu_reel.py    menu showcase reel (page flips, highlighter, dish tags)
 tools/prepare_clip.py  cleans a new clip's audio, transcribes it, writes a draft daily episode
 episodes/              one JSON file per reel (ep01_launch.json, daily_ch05.json, ...)
 assets/                logo + brand fonts (Cinzel, Cormorant Garamond; SIL Open Font License)
 footage/               raw clips + footage/clean/*.wav (not committed: guest faces, large files)
 out/                   rendered videos (not committed)
 ```
+
+## Menu launch reel
+
+`python engine/menu_reel.py episodes/menu_launch.json` → `out/THC_New_Menu_Launch.mp4`
+
+The camera glides over the illustrated menu pages (`assets/menu/`), pages flip like a book, a gold
+highlighter draws around featured dishes and a brand tag shows dish and price. To feature different
+dishes, edit the `beats` in the episode file: `cam0`/`cam1` are [x, y, visible width] in page pixels
+(page = 1055×1491), `hl` rectangles are [x0, y0, x1, y1] in page pixels, and `tag` is name/desc/price.
+Beats with `"glide": true` move the camera on the same page instead of flipping.
 
 ## Daily workflow (about 10 minutes per chapter)
 
