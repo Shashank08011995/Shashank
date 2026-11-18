@@ -201,8 +201,10 @@ def render_beat(b, t):
             spaced(d, cx0, 950, b['line2'], F('cinzel-700.ttf', 76), GREEN, 5)
             y = 1075; d.line([(cx0 - 230, y), (cx0 - 16, y)], fill=GOLD, width=3); d.line([(cx0 + 16, y), (cx0 + 230, y)], fill=GOLD, width=3)
             d.polygon([(cx0, y - 8), (cx0 + 8, y), (cx0, y + 8), (cx0 - 8, y)], fill=GOLD)
-            for i, l in enumerate(b['info']): d.text((cx0, 1140 + 64 * i), l, font=F('corm-600.ttf', 48), fill=GREEN, anchor='mm')
-            spaced(d, cx0, 1150 + 64 * len(b['info']), b['place'], F('cinzel-700.ttf', 34), GOLD, 8)
+            off = 0
+            if b.get('sub'): spaced(d, cx0, 1108, b['sub'], F('cinzel-700.ttf', 36), GOLD, 7); off = 70
+            for i, l in enumerate(b['info']): d.text((cx0, 1140 + off + 64 * i), l, font=F('corm-600.ttf', 48), fill=GREEN, anchor='mm')
+            spaced(d, cx0, 1150 + off + 64 * len(b['info']), b['place'], F('cinzel-700.ttf', 30), GOLD, 5)
             b['txt'] = im
         fr = b['paper'].copy()
         a = env(lt, 0.25, 99, 0.6); lg = b['logo'].copy(); lg.putalpha(lg.split()[3].point(lambda v: int(v * a)))

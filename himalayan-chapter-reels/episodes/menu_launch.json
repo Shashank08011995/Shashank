@@ -314,13 +314,14 @@
   {
    "type": "end",
    "dur": 5.2,
-   "line1": "A new chapter is served.",
-   "line2": "THE NEW MENU",
+   "line1": "More than a place,",
+   "line2": "A CHAPTER.",
    "info": [
     "100% Vegetarian  ·  Vegan-friendly",
     "Ayurvedic bowls · Himalayan thali · Herbal bar"
    ],
-   "place": "BALAKNATH RD  ·  TAPOVAN  ·  RISHIKESH"
+   "place": "BALAKNATH RD  ·  TAPOVAN  ·  RISHIKESH",
+   "sub": "THE NEW MENU  ·  NOW SERVING"
   }
  ],
  "music": "himalayan",
