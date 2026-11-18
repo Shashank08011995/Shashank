@@ -89,17 +89,17 @@ TAGS = {}
 def tag_img(tg):
     key = json.dumps(tg)
     if key in TAGS: return TAGS[key]
-    f1, f2, f3 = F('cinzel-700.ttf', 50), F('corm-500i.ttf', 48), F('cinzel-700.ttf', 40)
+    f1, f2, f3 = F('cinzel-700.ttf', 60), F('corm-500i.ttf', 56), F('cinzel-700.ttf', 48)
     tmp = ImageDraw.Draw(Image.new('RGBA', (10, 10)))
     w = max(tw(tmp, tg['name'], f1, 4), tmp.textlength(tg.get('desc', ''), font=f2), tw(tmp, tg.get('price', ''), f3, 4)) + 110
-    w = min(max(w, 560), 1000); h = 92 + (66 if tg.get('desc') else 0) + (62 if tg.get('price') else 0)
+    w = min(max(w, 600), 1010); h = 104 + (76 if tg.get('desc') else 0) + (72 if tg.get('price') else 0)
     im = Image.new('RGBA', (int(w) + 40, int(h) + 40), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     sh = Image.new('L', im.size, 0); ImageDraw.Draw(sh).rounded_rectangle([20, 26, w + 20, h + 26], 28, fill=140)
     shi = Image.new('RGBA', im.size, (0, 0, 0, 255)); shi.putalpha(sh.filter(ImageFilter.GaussianBlur(12))); im.alpha_composite(shi)
     d.rounded_rectangle([20, 20, w + 20, h + 20], 28, fill=BOX + (238,), outline=GOLD + (255,), width=3)
     c = (w + 40) / 2; y = 48
-    spaced(d, c, y, tg['name'], f1, CREAM, 4); y += 72
-    if tg.get('desc'): d.text((c, y + 22), tg['desc'], font=f2, fill=CREAM, anchor='mm'); y += 66
+    spaced(d, c, y, tg['name'], f1, CREAM, 4); y += 84
+    if tg.get('desc'): d.text((c, y + 26), tg['desc'], font=f2, fill=CREAM, anchor='mm'); y += 76
     if tg.get('price'): spaced(d, c, y, tg['price'], f3, LGOLD, 4)
     TAGS[key] = im; return im
 def draw_highlights(fr, cam, hls, lt):
@@ -131,7 +131,7 @@ def put_tag(fr, tg, lt, dur, pos):
     a = env(lt, tg.get('t', 0.55), dur - 0.15, 0.35, 0.2)
     if a <= 0: return fr
     im = tag_img(tg).copy(); im.putalpha(im.split()[3].point(lambda v: int(v * a)))
-    y = (1430 if pos == 'bottom' else 250) + int(30 * (1 - ease((lt - tg.get('t', 0.55)) / 0.4)))
+    y = (1400 if pos == 'bottom' else 230) + int(30 * (1 - ease((lt - tg.get('t', 0.55)) / 0.4)))
     fr.alpha_composite(im, (int(cx0 - im.width / 2), y)); return fr
 def text_layer(lines):
     im = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
@@ -175,7 +175,8 @@ def render_beat(b, t):
                 fr.alpha_composite(Lc, (0, int(24 * (1 - ease((lt - t0) / 0.4)))))
         return fr
     if b['type'] == 'page':
-        p = smooth((lt - b.get('hold', 0)) / max(0.1, b['dur'] - b.get('hold', 0)))
+        hold = b.get('hold', FLIP if b.get('trans', 'flip') == 'flip' and not b.get('glide') else 0)
+        p = smooth((lt - hold) / max(0.1, b['dur'] - hold - 0.6))
         cam = tuple(a + (c - a) * p for a, c in zip(b['cam0'], b['cam1']))
         fr, cam = render_page(b['page'], cam)
         fr = draw_highlights(fr, cam, b.get('hl', []), lt)
@@ -233,11 +234,16 @@ def page_flip(a_img, b_img, p):
         A.alpha_composite(shade)
         out = out.convert('RGBA'); out.alpha_composite(A)
     return out
-XF = 0.4; FLIP = 0.55
+XF = 0.5; FLIP = 0.9
 
 # ---------- audio ----------
 end_t = [b['t0'] for b in beats if b['type'] == 'end'][0]
-m = make_music(TOTAL, beats[1]['t0'], end_t, (), (), None, seed=cfg.get('seed', 31), flute_at=cfg.get('flute_at', []))
+if cfg.get('music') == 'himalayan':
+    from music_himalayan import make_himalayan
+    mk = cfg['music_marks']
+    m = make_himalayan(TOTAL, beats[mk['flute']]['t0'], beats[mk['tabla']]['t0'], beats[mk['break']]['t0'], end_t, seed=cfg.get('seed', 7))
+else:
+    m = make_music(TOTAL, beats[1]['t0'], end_t, (), (), None, seed=cfg.get('seed', 31), flute_at=cfg.get('flute_at', []))
 r = os.path.splitext(P(cfg['out']))[0] + '_audio.wav'; os.makedirs(os.path.dirname(r), exist_ok=True)
 wavfile.write(r, SR, (m * 32767).astype(np.int16))
 import re

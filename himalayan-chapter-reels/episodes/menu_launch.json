@@ -1,53 +1,332 @@
 {
- "out": "../out/THC_New_Menu_Launch.mp4",
- "assets": {"fonts": "../assets/fonts", "logo": "../assets/logo.png"},
- "seed": 31,
- "flute_at": [4.8, 14.4, 24.0, 33.6],
+ "out": "../out/THC_New_Menu_Launch_v2.mp4",
+ "assets": {
+  "fonts": "../assets/fonts",
+  "logo": "../assets/logo.png"
+ },
+ "seed": 7,
  "pages": {
-  "cover": "../assets/menu/p01_cover.jpg", "howto": "../assets/menu/p02_how_to_read.jpg",
-  "sig": "../assets/menu/p03_signatures.jpg", "thali": "../assets/menu/p04_thali_morning.jpg",
-  "soups": "../assets/menu/p05_soups_small_plates.jpg", "indian": "../assets/menu/p06_indian_kitchen.jpg",
-  "travel": "../assets/menu/p07_travellers_comfort.jpg", "sweets": "../assets/menu/p08_sweets_herbal_bar.jpg"
+  "cover": "../assets/menu/p01_cover.jpg",
+  "howto": "../assets/menu/p02_how_to_read.jpg",
+  "sig": "../assets/menu/p03_signatures.jpg",
+  "thali": "../assets/menu/p04_thali_morning.jpg",
+  "soups": "../assets/menu/p05_soups_small_plates.jpg",
+  "indian": "../assets/menu/p06_indian_kitchen.jpg",
+  "travel": "../assets/menu/p07_travellers_comfort.jpg",
+  "sweets": "../assets/menu/p08_sweets_herbal_bar.jpg"
  },
  "beats": [
-  {"type": "hook", "src": "../footage/interior_walkthrough.mp4", "in": 0, "dur": 3.0, "dim": 0.45, "text": [
-    {"t": 0.1, "lines": [{"text": "THE HIMALAYAN CHAPTER", "font": "cinzel-700.ttf", "size": 44, "y": 720, "track": 9}]},
-    {"t": 0.45, "lines": [{"text": "We rewrote our", "font": "corm-500i.ttf", "size": 112, "y": 880},
-                           {"text": "entire menu.", "font": "corm-500i.ttf", "size": 112, "y": 1000}]},
-    {"t": 1.5, "lines": [{"text": "Here it is, page by page.", "font": "corm-500i.ttf", "size": 62, "y": 1130, "color": [240, 212, 150]}]}]},
-  {"type": "page", "page": "cover", "dur": 3.8, "trans": "dissolve", "hold": 0.6,
-   "cam0": [527, 745, 1180], "cam1": [527, 1180, 780],
-   "hl": [{"r": [200, 1288, 858, 1322], "t": 2.0}, {"r": [205, 1360, 850, 1420], "t": 2.5}],
-   "note": [{"text": "INTRODUCING  ·  THE NEW MENU", "font": "cinzel-700.ttf", "size": 40, "y": 150, "track": 8, "color": [240, 212, 150]}],
-   "note_t": 0.3, "note_out": 1.9},
-  {"type": "page", "page": "sig", "dur": 3.8, "cam0": [527, 745, 1180], "cam1": [527, 800, 1000],
-   "hl": [{"r": [296, 440, 810, 492], "t": 0.6}, {"r": [296, 662, 720, 712], "t": 0.95}, {"r": [296, 886, 720, 936], "t": 1.3}, {"r": [296, 1098, 760, 1148], "t": 1.65}],
-   "tag": {"name": "AYURVEDIC SIGNATURES", "desc": "Four bowls: Prithvi · Soma · Agni · Samya", "price": "₹330 – ₹340", "t": 0.7}},
-  {"type": "page", "page": "thali", "dur": 3.2, "cam0": [720, 600, 900], "cam1": [745, 590, 640],
-   "tag": {"name": "THE PANCH PRAYAG THALI", "desc": "Six tastes. One Himalayan table.", "price": "₹650", "t": 0.6}},
-  {"type": "page", "page": "thali", "dur": 2.8, "glide": true, "cam1": [527, 745, 900], "tag_pos": "top",
-   "hl": [{"r": [200, 905, 880, 965], "t": 0.6}],
-   "tag": {"name": "MORNING IN THE HIMALAYAS", "desc": "Oats, millet bowls, poha & parathas", "price": "FROM ₹190", "t": 0.5}},
-  {"type": "page", "page": "soups", "dur": 3.0, "cam0": [527, 745, 1180], "cam1": [527, 700, 900],
-   "hl": [{"r": [104, 624, 955, 706], "t": 0.5}],
-   "tag": {"name": "STEAMED MANDUA MOMOS", "desc": "Himalayan finger-millet dumplings", "price": "₹270", "t": 0.6}},
-  {"type": "page", "page": "indian", "dur": 3.0, "cam0": [527, 745, 1180], "cam1": [527, 745, 920],
-   "hl": [{"r": [112, 355, 948, 412], "t": 0.5}, {"r": [140, 800, 948, 850], "t": 0.95}],
-   "tag": {"name": "FROM THE INDIAN KITCHEN", "desc": "Dal Amrit · Dal Makhani · Paneer Lababdar", "price": "FROM ₹270", "t": 0.6}},
-  {"type": "page", "page": "travel", "dur": 3.0, "cam0": [527, 745, 1180], "cam1": [527, 745, 920],
-   "hl": [{"r": [180, 406, 880, 440], "t": 0.5}, {"r": [130, 765, 945, 800], "t": 0.95}],
-   "tag": {"name": "TRAVELLER’S COMFORT", "desc": "For trekking days & rafting days", "price": "FROM ₹270", "t": 0.6}},
-  {"type": "page", "page": "sweets", "dur": 2.6, "cam0": [527, 745, 1180], "cam1": [527, 745, 920],
-   "hl": [{"r": [196, 368, 915, 418], "t": 0.45}],
-   "tag": {"name": "SWEET ENDINGS", "desc": "Jhangora Kheer · Date & Almond Ladoo", "price": "FROM ₹180", "t": 0.5}},
-  {"type": "page", "page": "sweets", "dur": 2.8, "glide": true, "cam1": [527, 745, 900], "tag_pos": "top",
-   "hl": [{"r": [212, 940, 915, 968], "t": 0.35}, {"r": [212, 1126, 500, 1152], "t": 0.75}],
-   "tag": {"name": "THE HERBAL BAR", "desc": "Golden Milk · Tulsi & Ginger · Masala Chai", "price": "FROM ₹90", "t": 0.4}},
-  {"type": "page", "page": "howto", "dur": 4.4, "cam0": [527, 745, 1180], "cam1": [527, 1200, 860], "tag_pos": "top",
-   "hl": [{"r": [142, 1100, 912, 1300], "t": 0.6}],
-   "tag": {"name": "VATA, PITTA OR KAPHA?", "desc": "Choose for the day you’re having.", "price": "COMMENT YOURS BELOW", "t": 0.5}},
-  {"type": "end", "dur": 4.6, "line1": "A new chapter is served.", "line2": "THE NEW MENU",
-   "info": ["100% Vegetarian  ·  Vegan-friendly", "Ayurvedic bowls · Himalayan thali · Herbal bar"],
-   "place": "BALAKNATH RD  ·  TAPOVAN  ·  RISHIKESH"}
- ]
+  {
+   "type": "hook",
+   "src": "../footage/interior_walkthrough.mp4",
+   "in": 0,
+   "dur": 3.4,
+   "dim": 0.45,
+   "text": [
+    {
+     "t": 0.1,
+     "lines": [
+      {
+       "text": "THE HIMALAYAN CHAPTER",
+       "font": "cinzel-700.ttf",
+       "size": 44,
+       "y": 720,
+       "track": 9
+      }
+     ]
+    },
+    {
+     "t": 0.45,
+     "lines": [
+      {
+       "text": "We rewrote our",
+       "font": "corm-500i.ttf",
+       "size": 112,
+       "y": 880
+      },
+      {
+       "text": "entire menu.",
+       "font": "corm-500i.ttf",
+       "size": 112,
+       "y": 1000
+      }
+     ]
+    },
+    {
+     "t": 1.7,
+     "lines": [
+      {
+       "text": "Here it is, page by page.",
+       "font": "corm-500i.ttf",
+       "size": 62,
+       "y": 1130,
+       "color": [
+        240,
+        212,
+        150
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "page",
+   "page": "cover",
+   "dur": 4.6,
+   "trans": "dissolve",
+   "hold": 0.6,
+   "cam0": [
+    527,
+    745,
+    1180
+   ],
+   "cam1": [
+    527,
+    1180,
+    780
+   ],
+   "hl": [
+    {
+     "r": [
+      200,
+      1288,
+      858,
+      1322
+     ],
+     "t": 2.2
+    },
+    {
+     "r": [
+      205,
+      1360,
+      850,
+      1420
+     ],
+     "t": 2.8
+    }
+   ],
+   "note": [
+    {
+     "text": "INTRODUCING  ·  THE NEW MENU",
+     "font": "cinzel-700.ttf",
+     "size": 40,
+     "y": 150,
+     "track": 8,
+     "color": [
+      240,
+      212,
+      150
+     ]
+    }
+   ],
+   "note_t": 0.3,
+   "note_out": 2.4
+  },
+  {
+   "type": "page",
+   "page": "sig",
+   "dur": 5.6,
+   "cam0": [
+    527,
+    745,
+    1180
+   ],
+   "cam1": [
+    527,
+    800,
+    940
+   ],
+   "tag_pos": "top",
+   "hl": [
+    {
+     "r": [
+      296,
+      440,
+      810,
+      492
+     ],
+     "t": 1.2
+    },
+    {
+     "r": [
+      296,
+      662,
+      720,
+      712
+     ],
+     "t": 1.6
+    },
+    {
+     "r": [
+      296,
+      886,
+      720,
+      936
+     ],
+     "t": 2.0
+    },
+    {
+     "r": [
+      296,
+      1098,
+      760,
+      1148
+     ],
+     "t": 2.4
+    }
+   ],
+   "tag": {
+    "name": "AYURVEDIC SIGNATURES",
+    "desc": "Four bowls · Prithvi · Soma · Agni · Samya",
+    "price": "₹330 – ₹340",
+    "t": 1.0
+   }
+  },
+  {
+   "type": "page",
+   "page": "thali",
+   "dur": 5.2,
+   "cam0": [
+    720,
+    620,
+    900
+   ],
+   "cam1": [
+    745,
+    590,
+    600
+   ],
+   "tag": {
+    "name": "THE PANCH PRAYAG THALI",
+    "desc": "Six tastes. One Himalayan table.",
+    "price": "₹650",
+    "t": 1.0
+   }
+  },
+  {
+   "type": "page",
+   "page": "soups",
+   "dur": 5.2,
+   "cam0": [
+    527,
+    745,
+    1180
+   ],
+   "cam1": [
+    505,
+    665,
+    780
+   ],
+   "hl": [
+    {
+     "r": [
+      104,
+      624,
+      955,
+      706
+     ],
+     "t": 1.1
+    }
+   ],
+   "tag": {
+    "name": "STEAMED MANDUA MOMOS",
+    "desc": "Himalayan finger-millet dumplings",
+    "price": "₹270",
+    "t": 1.0
+   }
+  },
+  {
+   "type": "page",
+   "page": "sweets",
+   "dur": 5.2,
+   "cam0": [
+    527,
+    745,
+    1180
+   ],
+   "cam1": [
+    520,
+    1000,
+    760
+   ],
+   "tag_pos": "top",
+   "hl": [
+    {
+     "r": [
+      212,
+      940,
+      915,
+      968
+     ],
+     "t": 1.1
+    },
+    {
+     "r": [
+      212,
+      1126,
+      500,
+      1152
+     ],
+     "t": 1.6
+    }
+   ],
+   "tag": {
+    "name": "THE HERBAL BAR",
+    "desc": "Golden Milk · Tulsi & Ginger · Masala Chai",
+    "price": "FROM ₹90",
+    "t": 1.0
+   }
+  },
+  {
+   "type": "page",
+   "page": "howto",
+   "dur": 6.0,
+   "cam0": [
+    527,
+    745,
+    1180
+   ],
+   "cam1": [
+    527,
+    1200,
+    800
+   ],
+   "tag_pos": "top",
+   "hl": [
+    {
+     "r": [
+      142,
+      1100,
+      912,
+      1300
+     ],
+     "t": 1.4
+    }
+   ],
+   "tag": {
+    "name": "VATA, PITTA OR KAPHA?",
+    "desc": "Choose for the day you’re having.",
+    "price": "COMMENT YOURS BELOW",
+    "t": 1.0
+   }
+  },
+  {
+   "type": "end",
+   "dur": 5.2,
+   "line1": "A new chapter is served.",
+   "line2": "THE NEW MENU",
+   "info": [
+    "100% Vegetarian  ·  Vegan-friendly",
+    "Ayurvedic bowls · Himalayan thali · Herbal bar"
+   ],
+   "place": "BALAKNATH RD  ·  TAPOVAN  ·  RISHIKESH"
+  }
+ ],
+ "music": "himalayan",
+ "music_marks": {
+  "flute": 1,
+  "tabla": 2,
+  "break": 6
+ }
 }

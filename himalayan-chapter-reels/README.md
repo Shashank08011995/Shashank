@@ -10,6 +10,7 @@ title, smooth dissolves, an original copyright-free soundtrack that ducks under 
 engine/reel.py         builds a reel from an episode file (JSON)
 engine/music.py        original soundtrack generator (nostalgic lo-fi: e-piano, guitar, glockenspiel, bansuri, vinyl)
 engine/menu_reel.py    menu showcase reel (page flips, highlighter, dish tags)
+engine/music_himalayan.py  Himalayan-café score: tanpura, santoor, bansuri (Raag Bhupali), tabla (keherwa)
 tools/prepare_clip.py  cleans a new clip's audio, transcribes it, writes a draft daily episode
 episodes/              one JSON file per reel (ep01_launch.json, daily_ch05.json, ...)
 assets/                logo + brand fonts (Cinzel, Cormorant Garamond; SIL Open Font License)
@@ -25,7 +26,9 @@ The camera glides over the illustrated menu pages (`assets/menu/`), pages flip l
 highlighter draws around featured dishes and a brand tag shows dish and price. To feature different
 dishes, edit the `beats` in the episode file: `cam0`/`cam1` are [x, y, visible width] in page pixels
 (page = 1055×1491), `hl` rectangles are [x0, y0, x1, y1] in page pixels, and `tag` is name/desc/price.
-Beats with `"glide": true` move the camera on the same page instead of flipping.
+Beats with `"glide": true` move the camera on the same page instead of flipping. `"music": "himalayan"`
+selects the raag score; `music_marks` says which beats bring in the flute, the tabla and the quieter break.
+Keep each stop at 5 s or more so people can read the tag.
 
 ## Daily workflow (about 10 minutes per chapter)
 
