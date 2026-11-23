@@ -73,7 +73,15 @@ def alien_2x(kind, blink=False, talk=False):
     rl = ImageChops.subtract(hm, hm.transform(hm.size, Image.AFFINE, (1, 0, 10, 0, 1, 12))).filter(ImageFilter.GaussianBlur(4))
     rimL = Image.new('RGBA', (S2W, S2H), rim + (0,)); rimL.putalpha(rl.point(lambda v: int(v * 0.8))); head.alpha_composite(rimL)
     sh = Image.new('RGBA', (S2W, S2H), (0, 0, 0, 0)); ImageDraw.Draw(sh).ellipse([150, 380 + oy, 450, 560 + oy], fill=(0, 0, 0, 60))   # soft chin shade
-    head.alpha_composite(sh.filter(ImageFilter.GaussianBlur(30))); im.alpha_composite(head); d = ImageDraw.Draw(im)
+    head.alpha_composite(sh.filter(ImageFilter.GaussianBlur(30)))
+    tex = np.asarray(Image.fromarray((np.random.default_rng(7 if kind == 'A' else 9).random((S2H // 6, S2W // 6)) * 255).astype(np.uint8)).resize((S2W, S2H), Image.BICUBIC)).astype(np.float32) / 255
+    fine = np.random.default_rng(3).normal(0, 1, (S2H, S2W)).astype(np.float32)
+    ha = np.asarray(head).astype(np.float32); m_ = (np.asarray(hm).astype(np.float32) / 255)[..., None]
+    ha[..., :3] = np.clip(ha[..., :3] * (1 + (0.16 * (tex - 0.5) + 0.03 * fine)[..., None] * m_), 0, 255); head = Image.fromarray(ha.astype(np.uint8), 'RGBA')
+    sp = Image.new('RGBA', (S2W, S2H), (0, 0, 0, 0)); dsp = ImageDraw.Draw(sp)
+    dsp.ellipse([170, 50 + oy, 330, 150 + oy], fill=(255, 255, 255, 120)); dsp.ellipse([380, 380 + oy, 430, 430 + oy], fill=(255, 255, 255, 60))
+    sp = sp.filter(ImageFilter.GaussianBlur(26)); sp.putalpha(ImageChops.multiply(sp.split()[3], hm)); head.alpha_composite(sp)
+    im.alpha_composite(head); d = ImageDraw.Draw(im)
     if kind == 'A':
         for ex, ang in ((215, 28), (385, -28)):
             if blink:
@@ -495,6 +503,40 @@ st = subprocess.run(['ffmpeg', '-hide_banner', '-i', aw, '-af', 'ebur128=peak=tr
 I = float(re.findall(r'I:\s+(-?[\d.]+) LUFS', st)[-1]); pk = float(re.findall(r'Peak:\s+(-?[\d.]+) dBFS', st)[-1])
 gn = min(-14 - I, -1.0 - pk); wavfile.write(aw, SR, (np.clip(mix * 10 ** (gn / 20), -1, 1) * 32767).astype(np.int16))
 
+# ============================ cinematic post ============================
+yy_, xx_ = np.mgrid[0:H, 0:W]; rr_ = np.sqrt(((xx_ - W / 2) / W) ** 2 + ((yy_ - H / 2) / H) ** 2)
+VIG = np.clip(1.08 - 0.75 * rr_ ** 2, 0, 1).astype(np.float32)[..., None]
+GRAIN = [np.random.default_rng(i).normal(0, 1, (H // 2, W // 2)).astype(np.float32) for i in range(8)]
+PART = dict(x=rng.uniform(0, W, 140), y=rng.uniform(0, H, 140), vx=rng.uniform(-12, 12, 140), vy=rng.uniform(-60, -15, 140), r=rng.uniform(1.5, 4.5, 140), ph=rng.uniform(0, 6.3, 140))
+def particles(fr, t, amt):
+    if amt <= 0: return
+    L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); cols = [CYAN, PINK, (255, 230, 180), LIME]
+    for i in range(140):
+        x = (PART['x'][i] + PART['vx'][i] * t) % W; y = (PART['y'][i] + PART['vy'][i] * t) % H; r = PART['r'][i]
+        a = int(255 * amt * (0.4 + 0.6 * abs(math.sin(t * 2 + PART['ph'][i]))))
+        d.ellipse([x - r, y - r, x + r, y + r], fill=cols[i % 4] + (a,))
+    fr.alpha_composite(glow(L, 5, 2.0)); fr.alpha_composite(L)
+def post(fr, t, shake=0.0):
+    a = np.asarray(fr.convert('RGB')).astype(np.float32) / 255
+    sm = fr.convert('RGB').resize((W // 4, H // 4), Image.BILINEAR); sa = np.asarray(sm).astype(np.float32) / 255
+    lum = sa.max(2, keepdims=True); br = np.clip((lum - 0.62) / 0.38, 0, 1) ** 2 * sa
+    bi = Image.fromarray((br * 255).astype(np.uint8))
+    b1 = np.asarray(bi.filter(ImageFilter.GaussianBlur(6)).resize((W, H), Image.BILINEAR)).astype(np.float32) / 255
+    b2 = np.asarray(bi.filter(ImageFilter.GaussianBlur(22)).resize((W, H), Image.BILINEAR)).astype(np.float32) / 255
+    an = np.asarray(bi.resize((12, H // 4), Image.BILINEAR).resize((W // 4, H // 4), Image.BILINEAR).filter(ImageFilter.GaussianBlur(2)).resize((W, H), Image.BILINEAR)).astype(np.float32) / 255
+    a = a + 0.55 * b1 + 0.45 * b2 + 0.9 * an.mean(2, keepdims=True) * np.array([0.45, 0.75, 1.0], np.float32)
+    lum = a.mean(2, keepdims=True)                                            # teal shadows / warm highlights
+    a = a + (1 - np.clip(lum * 1.6, 0, 1)) * np.array([-0.02, 0.012, 0.03], np.float32) + np.clip(lum - 0.6, 0, 1) * np.array([0.05, 0.02, -0.03], np.float32)
+    a = a * VIG
+    a[..., 0] = np.roll(a[..., 0], 2, axis=1); a[..., 2] = np.roll(a[..., 2], -2, axis=1)   # chromatic aberration
+    g = GRAIN[int(t * FPS) % 8]; g = np.repeat(np.repeat(g, 2, 0), 2, 1)[..., None]; a = a + g * 0.022
+    out = Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8))
+    if shake > 0.01:
+        r_ = np.random.default_rng(int(t * 1000)); dx, dy = r_.uniform(-1, 1, 2) * 14 * shake
+        z = 1.02; big = out.resize((int(W * z), int(H * z)), Image.BILINEAR)
+        out = big.crop((int((big.width - W) / 2 + dx), int((big.height - H) / 2 + dy), int((big.width - W) / 2 + dx) + W, int((big.height - H) / 2 + dy) + H))
+    return out
+
 # ============================ render ============================
 enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                         '-i', aw, '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-maxrate', '12M', '-bufsize', '24M', '-pix_fmt', 'yuv420p',
@@ -560,7 +602,11 @@ for n in range(int(round(TOTAL * FPS))):
     fl = 0.10 * k if DROP <= t < BRK else 0.0
     for tt_, s in ((T_ARR, 0.85), (DROP, 0.8), (T_CUA, 0.35), (T_CUB, 0.35), (T_WIDE, 0.35), (BRK, 0.6)):
         if 0 <= t - tt_ < 0.3: fl = max(fl, s * math.exp(-(t - tt_) / 0.08))
+    if DROP <= t < BRK: particles(fr, t, 0.8)
+    elif T_LAND <= t < DROP: particles(fr, t, 0.35 * (t - T_LAND) / (DROP - T_LAND))
     if fl > 0.01: fr.alpha_composite(Image.new('RGBA', (W, H), (230, 230, 255, int(255 * fl))))
+    sh_ = (0.9 * kick_env(t, 0.1) if DROP <= t < BRK else 0) + (max(0, 1 - (t - T_ARR) / 0.6) if T_ARR <= t < T_ARR + 0.6 else 0) + (max(0, 1 - (t - DROP) / 0.8) * 1.5 if DROP <= t < DROP + 0.8 else 0)
+    fr = post(fr, t, sh_).convert('RGBA')
     if TOTAL - t < 0.35: fr = Image.blend(fr.convert('RGB'), Image.new('RGB', (W, H), 0), 1 - (TOTAL - t) / 0.35).convert('RGBA')
     enc.stdin.write(fr.convert('RGB').tobytes())
 enc.stdin.close(); enc.wait(); print(f'done {P(C["out"])} {TOTAL:.1f}s (audio {I:.1f} LUFS -> {gn:+.1f} dB)')
