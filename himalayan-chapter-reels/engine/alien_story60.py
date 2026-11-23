@@ -20,7 +20,7 @@ T_COCK, T_EXT, T_HYPER, T_ARR, T_LAND, DROP, T_CUA, T_CUB, T_WIDE, T_INFO, BRK, 
     ('cockpit', 'exterior', 'hyper', 'arrive', 'land', 'drop', 'close_a', 'close_b', 'wide', 'info', 'end', 'total'))
 BPM = C.get('bpm', 120); BEAT = 60 / BPM
 SILVER=(236,240,255); VIOLET=(176,120,255); CYAN=(110,230,255); GOLD=(226,186,104); CREAM=(247,240,222)
-WHITE=(255,255,255); PINK=(255,90,200); LIME=(150,255,170); INK=(16,16,28)
+WHITE=(236,238,246); PINK=(255,90,200); LIME=(150,255,170); INK=(16,16,28)
 FD = P(C['assets']['fonts']); INTER = '/usr/share/fonts/opentype/inter/'; MONO = '/usr/share/fonts/truetype/jetbrains-mono/'
 def F(n, s):
     if n.startswith('Inter'): return ImageFont.truetype(INTER + n, s)
@@ -200,7 +200,7 @@ def moon_img(r, seed=1):
     n = np.asarray(Image.fromarray((rr.random((max(2, s // 14),) * 2) * 255).astype(np.uint8)).resize((s, s), Image.BICUBIC)).astype(np.float32) / 255
     n2 = np.asarray(Image.fromarray((rr.random((max(2, s // 45),) * 2) * 255).astype(np.uint8)).resize((s, s), Image.BICUBIC)).astype(np.float32) / 255
     sh = 0.8 + 0.1 * n + 0.14 * n2 - 0.16 * dd ** 3
-    rgb = np.stack([sh * 238, sh * 240, sh * 252], -1).clip(0, 255); a = np.clip((1 - dd) * r / 1.5, 0, 1) * 255
+    rgb = np.stack([sh * 220, sh * 222, sh * 234], -1).clip(0, 255); a = np.clip((1 - dd) * r / 1.5, 0, 1) * 255
     im = Image.fromarray(np.dstack([rgb, a]).astype(np.uint8), 'RGBA')
     g = Image.new('RGBA', (int(s * 2.2), int(s * 2.2)), (0, 0, 0, 0)); ImageDraw.Draw(g).ellipse([s * 0.45, s * 0.45, s * 1.75, s * 1.75], fill=(170, 185, 255, 150))
     g = g.filter(ImageFilter.GaussianBlur(s * 0.22)); g.alpha_composite(im, (int(s * 0.6), int(s * 0.6))); return g
@@ -306,9 +306,9 @@ def bubble(fr, text, x, y, tail, t, t0, t1, who='A'):
         S = 2; im = Image.new('RGBA', (W * S, H * S), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
         bx0, by0 = (x - w / 2) * S, (y - h / 2) * S; bx1, by1 = (x + w / 2) * S, (y + h / 2) * S
         ring = (CYAN if who == 'A' else PINK if who == 'B' else GOLD)
-        d.polygon([((x - 22) * S, (y + h / 2 - 6) * S), ((x + 22) * S, (y + h / 2 - 6) * S), (tail[0] * S, tail[1] * S)], fill=(255, 255, 255, 255))
-        d.rounded_rectangle([bx0, by0, bx1, by1], 46 * S, fill=(255, 255, 255, 255), outline=ring + (255,), width=6 * S)
-        d.polygon([((x - 18) * S, (y + h / 2 - 12) * S), ((x + 18) * S, (y + h / 2 - 12) * S), (tail[0] * S, tail[1] * S - 8 * S)], fill=(255, 255, 255, 255))
+        d.polygon([((x - 22) * S, (y + h / 2 - 6) * S), ((x + 22) * S, (y + h / 2 - 6) * S), (tail[0] * S, tail[1] * S)], fill=(226, 230, 238, 255))
+        d.rounded_rectangle([bx0, by0, bx1, by1], 46 * S, fill=(226, 230, 238, 255), outline=ring + (255,), width=6 * S)
+        d.polygon([((x - 18) * S, (y + h / 2 - 12) * S), ((x + 18) * S, (y + h / 2 - 12) * S), (tail[0] * S, tail[1] * S - 8 * S)], fill=(226, 230, 238, 255))
         d.text((x * S, y * S + 2 * S), text, font=F('Inter-ExtraBold.otf', 50 * S), fill=INK + (255,), anchor='mm')
         im = im.resize((W, H), Image.LANCZOS); bb = im.getbbox(); BUB[key] = (im.crop(bb), bb)
     im, bb = BUB[key]; p = (t - t0) / 0.22; s = 0.6 + 0.4 * ease(p) + 0.06 * math.sin(min(1, p) * math.pi)
@@ -519,12 +519,13 @@ def particles(fr, t, amt):
 def post(fr, t, shake=0.0):
     a = np.asarray(fr.convert('RGB')).astype(np.float32) / 255
     sm = fr.convert('RGB').resize((W // 4, H // 4), Image.BILINEAR); sa = np.asarray(sm).astype(np.float32) / 255
-    lum = sa.max(2, keepdims=True); br = np.clip((lum - 0.62) / 0.38, 0, 1) ** 2 * sa
+    lum = sa.max(2, keepdims=True); sat = lum - sa.min(2, keepdims=True)
+    br = np.clip((lum - 0.9) / 0.1, 0, 1) ** 2 * sa * (0.35 + 0.65 * np.clip(sat * 2.5, 0, 1))   # coloured lights bloom, white text doesn't
     bi = Image.fromarray((br * 255).astype(np.uint8))
     b1 = np.asarray(bi.filter(ImageFilter.GaussianBlur(6)).resize((W, H), Image.BILINEAR)).astype(np.float32) / 255
     b2 = np.asarray(bi.filter(ImageFilter.GaussianBlur(22)).resize((W, H), Image.BILINEAR)).astype(np.float32) / 255
     an = np.asarray(bi.resize((12, H // 4), Image.BILINEAR).resize((W // 4, H // 4), Image.BILINEAR).filter(ImageFilter.GaussianBlur(2)).resize((W, H), Image.BILINEAR)).astype(np.float32) / 255
-    a = a + 0.55 * b1 + 0.45 * b2 + 0.9 * an.mean(2, keepdims=True) * np.array([0.45, 0.75, 1.0], np.float32)
+    a = a + 0.4 * b1 + 0.35 * b2 + 0.6 * an.mean(2, keepdims=True) * np.array([0.45, 0.75, 1.0], np.float32)
     lum = a.mean(2, keepdims=True)                                            # teal shadows / warm highlights
     a = a + (1 - np.clip(lum * 1.6, 0, 1)) * np.array([-0.02, 0.012, 0.03], np.float32) + np.clip(lum - 0.6, 0, 1) * np.array([0.05, 0.02, -0.03], np.float32)
     a = a * VIG
