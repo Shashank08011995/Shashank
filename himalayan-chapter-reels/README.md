@@ -10,6 +10,8 @@ title, smooth dissolves, an original copyright-free soundtrack that ducks under 
 engine/reel.py         builds a reel from an episode file (JSON)
 engine/music.py        original soundtrack generator (nostalgic lo-fi: e-piano, guitar, glockenspiel, bansuri, vinyl)
 engine/menu_reel.py    menu showcase reel (page flips, highlighter, dish tags)
+engine/event_reel.py   event promo (poster layout, lineup drop, night-sky booking card)
+engine/music_edm.py    melodic-house event track: build, drop, breakdown
 engine/music_himalayan.py  Himalayan-café score: tanpura, santoor, bansuri (Raag Bhupali), tabla (keherwa)
 tools/prepare_clip.py  cleans a new clip's audio, transcribes it, writes a draft daily episode
 episodes/              one JSON file per reel (ep01_launch.json, daily_ch05.json, ...)
@@ -29,6 +31,14 @@ dishes, edit the `beats` in the episode file: `cam0`/`cam1` are [x, y, visible w
 Beats with `"glide": true` move the camera on the same page instead of flipping. `"music": "himalayan"`
 selects the raag score; `music_marks` says which beats bring in the flute, the tabla and the quieter break.
 Keep each stop at 5 s or more so people can read the tag.
+
+## Event promo reel
+
+`python engine/event_reel.py episodes/event_fullmoon_2411.json` → `out/THC_Full_Moon_DJ_Night_24Nov.mp4`
+
+For the next event, copy the episode file and change the title, artists, date/time lines, phone and
+`segments` (which seconds of the footage to use, slowed to `dur`, and a `crop` [w, h, x, y] that keeps the
+2.4:1 strip clear of any burned-in text). The music drops on the second segment, when the lineup appears.
 
 ## Daily workflow (about 10 minutes per chapter)
 
