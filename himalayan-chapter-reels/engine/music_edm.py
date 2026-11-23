@@ -5,7 +5,7 @@ import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
 SR = 48000
 
-def make_edm(total, drop, brk, seed=5, bpm=120):
+def make_edm(total, drop, brk, seed=5, bpm=120, pre=None):
     N = int(SR * total); rng = np.random.default_rng(seed)
     hz = lambda m: 440 * 2 ** ((m - 69) / 12)
     lp = lambda x, f, o=2: sosfilt(butter(o, f, 'low', fs=SR, output='sos'), x)
@@ -69,6 +69,14 @@ def make_edm(total, drop, brk, seed=5, bpm=120):
     while t < drop - 1e-6:                                # 8ths then 16ths into the drop
         step = B / 2 if t < drop - B else B / 4
         add('drums', clap(0.35 + 0.65 * (1 - (drop - t) / (2 * B))), t, 0.1); t += step
+    # --- optional light groove before the drop (for long story intros) ---
+    if pre is not None:
+        t = pre; b = 0
+        while t < drop - 2 * B - 1e-6:
+            if b % 2 == 0: add('drums', kick(0.45), t)
+            add('drums', hat(0.45), t + B / 2, 0.3)
+            if b % 4 == 3: add('drums', clap(0.35), t, 0.05)
+            t += B; b += 1
     # --- drop ---
     kicks = []
     t = drop; b = 0
