@@ -1,0 +1,49 @@
+{
+ "assets": {
+  "fonts": "../assets/fonts",
+  "logo": "../assets/logo.png"
+ },
+ "presenter": "THE HIMALAYAN CHAPTER",
+ "title1": "FULL MOON",
+ "title2": "DJ NIGHT",
+ "artists": [
+  "DJ YAKSH",
+  "JUSTBHAV"
+ ],
+ "date_line": "TUE  ·  24 NOVEMBER",
+ "time_line": "7 PM ONWARDS",
+ "seats_line": "LIMITED SEATS  ·  BOOKING REQUIRED",
+ "end_when": "TUE · 24 NOV · 7 PM ONWARDS",
+ "booking_label": "Call for bookings",
+ "phone": "+91 83075 70870",
+ "place": "TAPOVAN  ·  RISHIKESH",
+ "tagline": "More than a place, a chapter.",
+ "bpm": 120,
+ "seed": 5,
+ "out": "../out/THC_Full_Moon_DJ_Night_Aliens.mp4",
+ "times": [
+  0.0,
+  4.0,
+  7.0,
+  9.0,
+  14.0,
+  18.0,
+  26.0
+ ],
+ "hud": [
+  "▸ INCOMING TRANSMISSION",
+  "▸ ORIGIN: TAPOVAN, EARTH",
+  "▸ SIGNAL: FULL MOON + BASS",
+  "▸ DECISION: GO."
+ ],
+ "story": [
+  "This full moon,",
+  "THE HIMALAYAN CHAPTER",
+  "is expecting visitors…"
+ ],
+ "landing": "▸ LANDING SEQUENCE…",
+ "end_hook": [
+  "THE ALIENS HAVE RSVP’D.",
+  "HAVE YOU?"
+ ]
+}
